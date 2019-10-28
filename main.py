@@ -16,8 +16,12 @@ playerImg = pygame.image.load('space.png') #64px
 playerX = 370
 playerY = 480
 
-def player():
-    screen.blit(playerImg, (playerX,playerY))
+# Changing position
+playerX_change = 0
+
+
+def player(x, y):
+    screen.blit(playerImg, (x, y))
 
 
 
@@ -32,9 +36,21 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    #RGB background
-    screen.fill((64, 224, 208))
-    player()
+        # If keystroke is pressed move right or left
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                playerX_change = -0.1
+            if event.key == pygame.K_RIGHT:
+                playerX_change = 0.1
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                playerX_change = 0
+
+
+
+
+    playerX += playerX_change
+    player(playerX,playerY)
     pygame.display.update()
 
 
