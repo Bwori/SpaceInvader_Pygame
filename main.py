@@ -27,7 +27,7 @@ playerX_change = 0
 
 # Enemy
 enemyImg = pygame.image.load('images/enemy.png')  # 64px
-enemyX = random.randint(0, 800)
+enemyX = random.randint(0,735)
 enemyY = random.randint(0, 50)
 
 # Changing enemy position
@@ -42,6 +42,9 @@ bulletImg = pygame.image.load('images/bullet.png')  # 32px
 bulletX = 0
 bulletY = 480
 bullet_state = "ready"
+
+#Score
+score = 0
 
 # Changing bullet position
 bulletX_change = 0
@@ -60,6 +63,14 @@ def fire_bullet(x, y):
     global bullet_state
     bullet_state = "fire"
     screen.blit(bulletImg, (x + 16, y + 10))
+
+
+def isCollision(enemyX, enemyY, bulletX, bulletY):
+    distance = math.sqrt((math.pow(enemyX - bulletX, 2)) + (math.pow(enemyY - bulletY, 2)))
+    if distance < 27:
+        return True
+    else:
+        return False
 
 
 # GameLoop
@@ -119,6 +130,19 @@ while running:
     if bullet_state is "fire":
         fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
+
+        # Collision
+        collision = isCollision(enemyX, enemyY, bulletX, bulletY)
+        if collision:
+            # explosion_Sound = mixer.Sound('explosion.wav')
+            # explosion_Sound.play()
+            bulletY = 480
+            bullet_state = "ready"
+            score += 1
+            print(score)
+            enemyX = random.randint(0, 735)
+            enemyY = random.randint(0, 50)
+
 
     player(playerX, playerY)
     enemy(enemyX, enemyY)
