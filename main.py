@@ -8,15 +8,15 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 
 # Background
-background = pygame.image.load('background.jpg')  # 800px x 600px
+background = pygame.image.load('images/background.jpg')  # 800px x 600px
 
 # Title and Icon
 pygame.display.set_caption("Space Invaders")
-icon = pygame.image.load('logo.png')  # 32px
+icon = pygame.image.load('images/logo.png')  # 32px
 pygame.display.set_icon(icon)
 
 # Player
-playerImg = pygame.image.load('space.png')  # 64px
+playerImg = pygame.image.load('images/space.png')  # 64px
 playerX = 370
 playerY = 480
 
@@ -24,7 +24,7 @@ playerY = 480
 playerX_change = 0
 
 # Enemy
-enemyImg = pygame.image.load('enemy.png')  # 64px
+enemyImg = pygame.image.load('images/enemy.png')  # 64px
 enemyX = random.randint(0, 800)
 enemyY = random.randint(0, 50)
 
