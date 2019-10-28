@@ -1,5 +1,7 @@
 import pygame
 import random
+import math
+from pygame import mixer
 
 # initialize game
 pygame.init()
@@ -32,6 +34,19 @@ enemyY = random.randint(0, 50)
 enemyX_change = 2
 enemyY_change = 40
 
+# Bullet
+# Ready - you cant see the bullet
+# Fire - the bullet will fire
+
+bulletImg = pygame.image.load('images/bullet.png')  # 32px
+bulletX = 0
+bulletY = 480
+bullet_state = "ready"
+
+# Changing bullet position
+bulletX_change = 0
+bulletY_change = 5
+
 
 def player(x, y):
     screen.blit(playerImg, (x, y))
@@ -39,6 +54,12 @@ def player(x, y):
 
 def enemy(x, y):
     screen.blit(enemyImg, (x, y))
+
+
+def fire_bullet(x, y):
+    global bullet_state
+    bullet_state = "fire"
+    screen.blit(bulletImg, (x + 16, y + 10))
 
 
 # GameLoop
@@ -60,6 +81,14 @@ while running:
                 playerX_change = -5
             if event.key == pygame.K_RIGHT:
                 playerX_change = 5
+            if event.key == pygame.K_SPACE:
+                if bullet_state is "ready":
+                    bullet_Sound = mixer.Sound('sound/laser.wav')
+                    # bullet_Sound.play()
+                    # Get the current x coordinate of the spaceship
+                    bulletX = playerX
+                    fire_bullet(bulletX, bulletY)
+
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 playerX_change = 0
@@ -81,6 +110,15 @@ while running:
     elif enemyX >= 736:
         enemyX_change = -2
         enemyY += enemyY_change
+
+    # bullet movement
+    if bulletY <= 0:
+        bulletY = 480
+        bullet_state = "ready"
+
+    if bullet_state is "fire":
+        fire_bullet(bulletX, bulletY)
+        bulletY -= bulletY_change
 
     player(playerX, playerY)
     enemy(enemyX, enemyY)
